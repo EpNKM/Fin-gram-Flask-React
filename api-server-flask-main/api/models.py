@@ -10,8 +10,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 import ast
 db = SQLAlchemy()
-import moodle_api
-
 
 class Users(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -166,18 +164,18 @@ class Attendance(db.Model):
         return f"{self.userid}-{self.username}-{self.examscore}-{self.quiztotal}-{self.journal}-{self.attendance_plugin}"
     
 #Adding all selected contents into a table built with SQLALCHEMY
-out=moodle_api.call("gradereport_user_get_grade_items",courseid=2)
-correct_json=out["usergrades"]
-lst_dict=[]
-db.create_all()
-for i in range(len(correct_json)):
-        lst_dict.append({'userid':correct_json[i]['userid'],'username':correct_json[i]['userfullname'],
-                   'courseid':correct_json[i]['courseid'], 'examscore':correct_json[i]['gradeitems'][1]['gradeformatted'],
-                    'quiztotal':correct_json[i]['gradeitems'][2]['gradeformatted'],
-                     'journal':correct_json[i]['gradeitems'][3]['gradeformatted'],
-                    'attendance':correct_json[i]['gradeitems'][4]['gradeformatted'],
-                    'attendance_plugin':correct_json[i]['gradeitems'][5]['graderaw']})
-for i in range(len(lst_dict)):
-        value1=Attendance(username=lst_dict[i]['username'], userid=lst_dict[i]['userid'],examscore=lst_dict[i]['examscore'],quiztotal=lst_dict[i]['quiztotal'], journal=lst_dict[i]['journal'], attendance=lst_dict[i]['attendance'])
-        db.session.add(value1)
-        db.session.commit()
+# out=moodle_api.call("gradereport_user_get_grade_items",courseid=2)
+# correct_json=out["usergrades"]
+# lst_dict=[]
+# db.create_all()
+# for i in range(len(correct_json)):
+#         lst_dict.append({'userid':correct_json[i]['userid'],'username':correct_json[i]['userfullname'],
+#                    'courseid':correct_json[i]['courseid'], 'examscore':correct_json[i]['gradeitems'][1]['gradeformatted'],
+#                     'quiztotal':correct_json[i]['gradeitems'][2]['gradeformatted'],
+#                      'journal':correct_json[i]['gradeitems'][3]['gradeformatted'],
+#                     'attendance':correct_json[i]['gradeitems'][4]['gradeformatted'],
+#                     'attendance_plugin':correct_json[i]['gradeitems'][5]['graderaw']})
+# for i in range(len(lst_dict)):
+#         value1=Attendance(username=lst_dict[i]['username'], userid=lst_dict[i]['userid'],examscore=lst_dict[i]['examscore'],quiztotal=lst_dict[i]['quiztotal'], journal=lst_dict[i]['journal'], attendance=lst_dict[i]['attendance'])
+#         db.session.add(value1)
+#         db.session.commit()

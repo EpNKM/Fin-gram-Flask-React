@@ -1,5 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
+import {  Form,InputGroup} from 'react-bootstrap';
 
 
 function Appform1() {
@@ -14,14 +15,9 @@ function Appform1() {
           }}
         >
           <Form>
-            <Field name="answere" type="text" />
+            <InputGroup.Text name="answere" type="text" />
             <button type="submit">Submit</button>
           </Form>
         </Formik>
       </div>
-    );
-  }
-  
-  ReactDOM.render(<Appform1 />, document.getElementById("root"));
-
-export default App;
+      ); };

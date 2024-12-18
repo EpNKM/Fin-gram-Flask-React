@@ -14,8 +14,7 @@ from .models import db, Users, JWTTokenBlocklist
 from .config import BaseConfig
 import requests
 
-import moodle_api
-from moodle_api import Attendance 
+
 #from sys_models import SurveySystem
 
 #system = SurveySystem()
@@ -251,62 +250,46 @@ class GitHubLogin(Resource):
     
 
     #main page route
-@rest_api.route('/')
-def index():
-    return 'Hello User. Welcome to the Moodle Attendance API'
+# @rest_api.route('/')
+# def index():
+#     return 'Hello User. Welcome to the Moodle Attendance API'
 
 #attendance route for all data
 #first API route, all columns
-@rest_api.route('/all')
-def get_all():
-    out=moodle_api.call("gradereport_user_get_grade_items",courseid=2)
-    correct_json=out["usergrades"]
-    lst_dict=[]
-    for i in range(len(correct_json)):
-        lst_dict.append({'userid':correct_json[i]['userid'],'username':correct_json[i]['userfullname'],
-                   'courseid':correct_json[i]['courseid'], 'examscore':correct_json[i]['gradeitems'][1]['gradeformatted'],
-                    'quiztotal':correct_json[i]['gradeitems'][2]['gradeformatted'],
-                     'journal':correct_json[i]['gradeitems'][3]['gradeformatted'],
-                    'attendance':correct_json[i]['gradeitems'][4]['gradeformatted'],
-                    'attendance_plugin':correct_json[i]['gradeitems'][5]['graderaw']})
+# @rest_api.route('/all')
+# def get_all():
+#     out=moodle_api.call("gradereport_user_get_grade_items",courseid=2)
+#     correct_json=out["usergrades"]
+#     lst_dict=[]
+#     for i in range(len(correct_json)):
+#         lst_dict.append({'userid':correct_json[i]['userid'],'username':correct_json[i]['userfullname'],
+#                    'courseid':correct_json[i]['courseid'], 'examscore':correct_json[i]['gradeitems'][1]['gradeformatted'],
+#                     'quiztotal':correct_json[i]['gradeitems'][2]['gradeformatted'],
+#                      'journal':correct_json[i]['gradeitems'][3]['gradeformatted'],
+#                     'attendance':correct_json[i]['gradeitems'][4]['gradeformatted'],
+#                     'attendance_plugin':correct_json[i]['gradeitems'][5]['graderaw']})
 
-    return {'all':lst_dict}
+#     return {'all':lst_dict}
 
 #second api route - just attendance
-@rest_api.route('/attendance')
-def get_attendance():
-    out=moodle_api.call("gradereport_user_get_grade_items",courseid=2)
-    correct_json=out["usergrades"]
-    lst_dict=[]
-    for i in range(len(correct_json)):
-        lst_dict.append({'userid':correct_json[i]['userid'],'username':correct_json[i]['userfullname'],
-                    'attendance':correct_json[i]['gradeitems'][5]['gradeformatted']})
+# @rest_api.route('/attendance')
+# def get_attendance():
+#     out=moodle_api.call("gradereport_user_get_grade_items",courseid=2)
+#     correct_json=out["usergrades"]
+#     lst_dict=[]
+#     for i in range(len(correct_json)):
+#         lst_dict.append({'userid':correct_json[i]['userid'],'username':correct_json[i]['userfullname'],
+#                     'attendance':correct_json[i]['gradeitems'][5]['gradeformatted']})
 
-    return {'attendance':lst_dict}
+#     return {'attendance':lst_dict}
 
 #third Route to Get attendance values by userid
-@rest_api.route('/attendance/<userid>')
-def get_attendan(userid):
-    valueattendance=Attendance.query.get(userid)
-    if valueattendance is None:
-        return {"error":"Userid not found try again"}
-    else:
-        return {"username":valueattendance.username,"userid":valueattendance.userid,"attendance score":valueattendance.attendance}
+# @rest_api.route('/attendance/<userid>')
+# def get_attendan(userid):
+#     valueattendance=Attendance.query.get(userid)
+#     if valueattendance is None:
+#         return {"error":"Userid not found try again"}
+#     else:
+#         return {"username":valueattendance.username,"userid":valueattendance.userid,"attendance score":valueattendance.attendance}
 
     
-    #questions route - displays question pool
-# @rest_api.route("/questions")
-# def questions():
-
-#      if not system.check_login() == 3: return redirect(url_for('index'))
-
-#      mandatory_questions = Question.query.filter_by(state = 1, required = 1).all()
-#      optional_questions = Question.query.filter_by(state = 1, required = 0).all()
-
-#      if request.args.get('delete'):
-#          if request.args.get('delete') == '1':
-#              return render_template("questions.html", mandatory_questions=mandatory_questions, optional_questions=optional_questions, success=1)
-#          else:
-#              return render_template("questions.html", mandatory_questions=mandatory_questions, optional_questions=optional_questions, error=1)
-#      else:
-#          return render_template("questions.html", mandatory_questions=mandatory_questions, optional_questions=optional_questions)

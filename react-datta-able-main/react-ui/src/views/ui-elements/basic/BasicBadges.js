@@ -1,9 +1,6 @@
-
-import React from 'react';
-import { Card, Button,ProgressBar } from 'react-bootstrap';
+import React, { useState } from 'react';
 import CardGroup from 'react-bootstrap/CardGroup';
-import RestLogin from 'react-datta-able-main/react-ui/src/views/forms/Form1course.js';
-
+import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown,ProgressBar } from 'react-bootstrap';
 
 function GroupExample() {
   return (
@@ -15,7 +12,7 @@ function GroupExample() {
           <Card.Text>
           Здесь скоро будет картинка с текстом
           </Card.Text>
-          <Button onClick={() => Appform1()} variant="primary">Перейти к курсу</Button>
+          <Button onClick={{}} variant="primary">Перейти к курсу</Button>
         </Card.Body>
         <Card.Footer>
          <ProgressBar now={60} />

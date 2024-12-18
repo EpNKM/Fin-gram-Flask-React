@@ -59,28 +59,28 @@ const menuItems = {
                 }
             ]
         },
-        {
-            id: 'ui-forms',
-            title: 'Forms & Tables',
-            type: 'group',
-            icon: 'icon-group',
-            children: [
-                {
-                    id: 'forms',
-                    title: 'Forms',
-                    type: 'item',
-                    url: '/forms/form-basic',
-                    icon: 'feather icon-file-text'
-                },
-                {
-                    id: 'bootstrap',
-                    title: 'Bootstrap Table',
-                    type: 'item',
-                    url: '/tables/bootstrap',
-                    icon: 'feather icon-server'
-                }
-            ]
-        },
+        // {
+        //     id: 'ui-forms',
+        //     title: 'Forms & Tables',
+        //     type: 'group',
+        //     icon: 'icon-group',
+        //     children: [
+        //         {
+        //             id: 'forms',
+        //             title: 'Forms',
+        //             type: 'item',
+        //             url: '/forms/form-basic',
+        //             icon: 'feather icon-file-text'
+        //         },
+        //         {
+        //             id: 'bootstrap',
+        //             title: 'Bootstrap Table',
+        //             type: 'item',
+        //             url: '/tables/bootstrap',
+        //             icon: 'feather icon-server'
+        //         }
+        //     ]
+        // },
         {
             id: 'chart-maps',
             title: 'Карты',
