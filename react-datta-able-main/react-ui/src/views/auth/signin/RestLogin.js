@@ -98,7 +98,7 @@ const RestLogin = ({ className, ...rest }) => {
 
                         {errors.submit && (
                             <Col sm={12}>
-                                <Alert variant="danger">{errors.submit}</Alert>
+                                <Alert variant="danger">{'Неправильный email'}</Alert>
                             </Col>
                         )}
 

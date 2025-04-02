@@ -67,11 +67,21 @@ const routes = [
                 path: '/app/dashboard/default',
                 component: lazy(() => import('./views/dashboard/DashDefault'))
             },
+            {
+                exact: true,
+                path: '/basic/1course',
+                component: lazy(() => import('./views/ui-elements/basic/1course'))
+            },
 
             {
                 exact: true,
                 path: '/basic/button',
                 component: lazy(() => import('./views/ui-elements/basic/BasicButton'))
+            },
+            {
+                exact: true,
+                path: '/basic/Form1cource',
+                component: lazy(() => import('./views/ui-elements/basic/Form1course'))
             },
             {
                 exact: true,

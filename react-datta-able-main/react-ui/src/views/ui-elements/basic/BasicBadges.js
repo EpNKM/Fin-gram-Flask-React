@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import CardGroup from 'react-bootstrap/CardGroup';
 import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown,ProgressBar } from 'react-bootstrap';
+import { useHistory } from "react-router-dom";
+
 
 function GroupExample() {
+  const history = useHistory();
   return (
     <CardGroup>
       <Card>
@@ -12,7 +15,7 @@ function GroupExample() {
           <Card.Text>
           Здесь скоро будет картинка с текстом
           </Card.Text>
-          <Button onClick={{}} variant="primary">Перейти к курсу</Button>
+          <Button onClick={() => history.push('/basic/1course')} variant="primary">Перейти к курсу</Button>
         </Card.Body>
         <Card.Footer>
          <ProgressBar now={60} />
