@@ -15,12 +15,6 @@ from .config import BaseConfig
 import requests
 
 
-#from sys_models import SurveySystem
-
-#system = SurveySystem()
-
-
-
 
 rest_api = Api(version="1.0", title="Users API")
 
@@ -42,7 +36,7 @@ user_edit_model = rest_api.model('UserEditModel', {"userID": fields.String(requi
                                                    "username": fields.String(required=True, min_length=2, max_length=32),
                                                    "email": fields.String(required=True, min_length=4, max_length=64)
                                                    })
-
+                                                   
 
 
 """
@@ -247,7 +241,65 @@ class GitHubLogin(Resource):
                     "username": user_json['username'],
                     "token": token,
                 }}, 200
+
+
+@rest_api.route('/api/create_test', methods=['POST'])
+class Create_test(Resource):
+    @token_required
+    def create_test():
+        data = request.get_json()
+        
+        # Получаем заголовок теста
+        title = data['title']
+        
+        # Создаем новый тест
+        new_test = Test(title=title)
+        
+        # Проверяем наличие вопросов в данных
+        if 'questions' in data:
+            for q in data['questions']:
+                question_text = q['text']
+                new_question = Question(text=question_text, test=new_test)  # Устанавливаем связь с тестом
+                db.session.add(new_question)  # Добавляем вопрос в сессию
+        
+        # Добавляем тест в сессию
+        db.session.add(new_test)
+        
+        # Сохраняем изменения в базе данных
+        db.session.commit()
+        
+        return jsonify({'message': 'Test created successfully!'}), 201
+
+
+@rest_api.route('/api/take_test/<int:test_id>', methods=['POST'])
+class Take_Test(Resource):
+    @token_required
+    def take_test(test_id):
+        test = Test.query.get_or_404(test_id)
+        
+        data = request.get_json()
+        
+        score = 0
+        
+        # Рассчитайте балл на основе отправленных ответов
+        
+        result = Result(user_id=current_user.id, test_id=test.id, score=score)
+        
+        db.session.add(result)
+        db.session.commit()
+        
+        return jsonify({'score': score}), 200
+
+
+@rest_api.route('/api/results', methods=['GET'])
+class Result(Resource):
+    @token_required
+    def results():
+        results_list = Result.query.filter_by(user_id=current_user.id).all()
     
+        results_data = [{'test_id': result.test_id, 'score': result.score} for result in results_list]
+    
+        return jsonify(results_data), 200
 
     #main page route
 # @rest_api.route('/')

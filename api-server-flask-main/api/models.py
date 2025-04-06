@@ -82,6 +82,8 @@ class JWTTokenBlocklist(db.Model):
         db.session.add(self)
         db.session.commit()
 
+#Тестирование
+
 class User(db.Model):
 
     __tablename__ = 'USERS'
@@ -90,92 +92,34 @@ class User(db.Model):
     password = db.Column(db.String(100), nullable=False)
     type = db.Column(db.Integer, nullable=False)
 
-class Course(db.Model):
-
-    __tablename__ = 'COURSES'
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    name = db.Column(db.String(10), nullable=False)
-    session = db.Column(db.String(5), nullable=False)
-
-class Enrolment(db.Model):
-
-    __tablename__ = 'ENROLMENTS'
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    u_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-    c_id = db.Column(db.Integer, db.ForeignKey(Course.id), nullable=False)
-    user = db.relationship(User)
-    course = db.relationship(Course)
+class Test(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    questions = db.relationship('Question', backref='test', lazy=True)
+    def __repr__(self):
+        return f'<Test {self.title}>'
 
 class Question(db.Model):
-
-    __tablename__ = 'QUESTIONS'
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    text = db.Column(db.Text, nullable=False)
-    state = db.Column(db.Integer, nullable=False)
-    type = db.Column(db.Integer, nullable=False)
-    required = db.Column(db.Integer, nullable=False)
-    responses = db.Column(db.Text, nullable=False)
-
-    def responsesList(self):
-         return ast.literal_eval(self.responses)
-
-class Survey(db.Model):
-
-    __tablename__ = 'SURVEYS'
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    name = db.Column(db.Text, nullable=False)
-    c_id = db.Column(db.Integer, db.ForeignKey(Course.id), nullable=False)
-    state = db.Column(db.Integer, nullable=False)
-    questions = db.Column(db.Text, nullable=False)
-    create_time = db.Column(db.DateTime, nullable=False, default=datetime.now())
-    course = db.relationship(Course)
-
-    def questionsList(self):
-         return ast.literal_eval(self.questions)
-
-class Response(db.Model):
-
-    __tablename__ = 'RESPONSES'
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    u_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-    s_id = db.Column(db.Integer, db.ForeignKey(Survey.id), nullable=False)
-    q_id = db.Column(db.Integer, db.ForeignKey(Question.id), nullable=False)
-    text = db.Column(db.Text)
-    num = db.Column(db.Integer)
-    user = db.relationship(User)
-    survey = db.relationship(Survey)
-    question = db.relationship(Question)
-
-    def responsesList(self):
-         return ast.literal_eval(self.responses)
-    
-class Attendance(db.Model):
-    userid=db.Column(db.Integer,primary_key=True)
-    courseid=db.Column(db.Integer)
-    examscore=db.Column(db.String(120))
-    quiztotal=db.Column(db.String(120))
-    journal=db.Column(db.String(120))
-    attendance=db.Column(db.String(120))
-    attendance_plugin=db.Column(db.String(120))
-    username=db.Column(db.String(80),unique=True,nullable=False)
-    
-
+    id = db.Column(db.Integer, primary_key=True)
+    test_id = db.Column(db.Integer, db.ForeignKey('test.id'), nullable=False)
+    question_text = db.Column(db.String(250), nullable=False)
+    options = db.relationship('Option', backref='question', lazy=True)
     def __repr__(self):
-        return f"{self.userid}-{self.username}-{self.examscore}-{self.quiztotal}-{self.journal}-{self.attendance_plugin}"
-    
-#Adding all selected contents into a table built with SQLALCHEMY
-# out=moodle_api.call("gradereport_user_get_grade_items",courseid=2)
-# correct_json=out["usergrades"]
-# lst_dict=[]
-# db.create_all()
-# for i in range(len(correct_json)):
-#         lst_dict.append({'userid':correct_json[i]['userid'],'username':correct_json[i]['userfullname'],
-#                    'courseid':correct_json[i]['courseid'], 'examscore':correct_json[i]['gradeitems'][1]['gradeformatted'],
-#                     'quiztotal':correct_json[i]['gradeitems'][2]['gradeformatted'],
-#                      'journal':correct_json[i]['gradeitems'][3]['gradeformatted'],
-#                     'attendance':correct_json[i]['gradeitems'][4]['gradeformatted'],
-#                     'attendance_plugin':correct_json[i]['gradeitems'][5]['graderaw']})
-# for i in range(len(lst_dict)):
-#         value1=Attendance(username=lst_dict[i]['username'], userid=lst_dict[i]['userid'],examscore=lst_dict[i]['examscore'],quiztotal=lst_dict[i]['quiztotal'], journal=lst_dict[i]['journal'], attendance=lst_dict[i]['attendance'])
-#         db.session.add(value1)
-#         db.session.commit()
+        return f'<Question {self.question_text}>'
+
+class Option(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
+    option_text = db.Column(db.String(100), nullable=False)
+    is_correct = db.Column(db.Boolean, default=False)
+    def __repr__(self):
+        return f'<Option {self.option_text}>'
+
+class Result(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    test_id = db.Column(db.Integer, db.ForeignKey('test.id'), nullable=False)
+    score = db.Column(db.Float, nullable=False)
+    def __repr__(self):
+        return f'<Result {self.Result_text}>'
+

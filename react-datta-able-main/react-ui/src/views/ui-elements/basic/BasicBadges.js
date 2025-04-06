@@ -8,12 +8,12 @@ function GroupExample() {
   const history = useHistory();
   return (
     <CardGroup>
-      <Card>
-        <Card.Img variant="top" src="react-datta-able-main/react-ui/src/email-_1__1.png"/>
+      <Card className="card-background" style={{ height: '280px',width: '500' }}>
+        <Card.Img variant="top" src="react-datta-able-main/react-ui/src/views/IMG/Excel2.png"/>
         <Card.Body>
-          <Card.Title>Курс 1</Card.Title>
+          <Card.Title>Курс 1 Excel</Card.Title>
           <Card.Text>
-          Здесь скоро будет картинка с текстом
+          Базовые навыки владения excel
           </Card.Text>
           <Button onClick={() => history.push('/basic/1course')} variant="primary">Перейти к курсу</Button>
         </Card.Body>
