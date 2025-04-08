@@ -5,7 +5,7 @@ from datetime import datetime, timezone, timedelta
 
 from functools import wraps
 
-from flask import request
+from flask import request,jsonify
 from flask_restx import Api, Resource, fields
 
 import jwt
@@ -36,7 +36,7 @@ user_edit_model = rest_api.model('UserEditModel', {"userID": fields.String(requi
                                                    "username": fields.String(required=True, min_length=2, max_length=32),
                                                    "email": fields.String(required=True, min_length=4, max_length=64)
                                                    })
-                                                   
+
 
 
 """
@@ -300,6 +300,28 @@ class Result(Resource):
         results_data = [{'test_id': result.test_id, 'score': result.score} for result in results_list]
     
         return jsonify(results_data), 200
+
+
+@rest_api.route('/api/check_answer', methods=['POST'])
+class Check_answer(Resource):
+    def post(self):
+        data = request.get_json()
+        picked = data.get('picked', '')
+
+        # Проверка результата
+        is_correct = picked == 'Таблица'
+        message = 'Правильно!' if is_correct else 'Неправильно. Правильный ответ: Таблица.'
+
+        # Создание объекта результата
+        result_object = {
+            'picked': picked,
+            'isCorrect': is_correct,
+            'message': message,
+        }
+        
+        response = jsonify(result_object)
+        response.headers['Content-Type'] = 'application/json; charset=utf-8'  # Установка кодировки
+        return response
 
     #main page route
 # @rest_api.route('/')

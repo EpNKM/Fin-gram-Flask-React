@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
-
+import Excel2 from '../../../assets/images/Excel/Excelnum2.png';
 
 const ExcelGuide = () => {
   const history = useHistory();
@@ -9,10 +9,10 @@ const ExcelGuide = () => {
     <Container style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
       <h1 className="text-center">Как работать в Excel</h1>
       <p className="text-center">Узнайте основные функции и возможности Microsoft Excel.</p>
-
       <Row className="mb-4">
         <Col>
           <Card>
+            <Card.Img variant="top" src={Excel2} />
             <Card.Body>
               <Card.Title>Шаг 1: Открытие Excel</Card.Title>
               <Card.Text>

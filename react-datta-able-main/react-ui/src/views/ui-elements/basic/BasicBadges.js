@@ -2,27 +2,28 @@ import React, { useState } from 'react';
 import CardGroup from 'react-bootstrap/CardGroup';
 import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown,ProgressBar } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
+import myImage1 from '../../../assets/images/Excel/Excel2.png';
 
 
 function GroupExample() {
   const history = useHistory();
   return (
     <CardGroup>
-      <Card className="card-background" style={{ height: '280px',width: '500' }}>
-        <Card.Img variant="top" src="react-datta-able-main/react-ui/src/views/IMG/Excel2.png"/>
-        <Card.Body>
+      <Card className="text-white">
+        <Card.Img variant="top" src={myImage1}/>
+        <Card.ImgOverlay>
           <Card.Title>Курс 1 Excel</Card.Title>
           <Card.Text>
           Базовые навыки владения excel
           </Card.Text>
-          <Button onClick={() => history.push('/basic/1course')} variant="primary">Перейти к курсу</Button>
-        </Card.Body>
+          <Button onClick={() => history.push('/basic/1course')} variant="success">Перейти к курсу</Button>
+        </Card.ImgOverlay>
         <Card.Footer>
          <ProgressBar now={60} />
         </Card.Footer>
       </Card>
       <Card>
-        <Card.Img variant="top" src="holder.js/100px160" />
+
         <Card.Body>
           <Card.Title>Курс 2</Card.Title>
           <Card.Text>
@@ -35,7 +36,7 @@ function GroupExample() {
         </Card.Footer>
       </Card>
       <Card>
-        <Card.Img variant="top" src="holder.js/100px160" />
+        
         <Card.Body>
           <Card.Title>Курс 3</Card.Title>
           <Card.Text>

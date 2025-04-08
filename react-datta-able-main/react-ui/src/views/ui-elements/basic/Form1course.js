@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios'; // Импортируем axios
+import { API_SERVER } from './../../../config/constant';
 
 const Example = () => {
-  const [result, setResult] = useState(null); // Состояние для хранения результата
+  const [result, setResult] = useState(null); // Инициализация состояния для результата
 
   return (
     <div className="container mt-5">
@@ -20,30 +22,28 @@ const Example = () => {
           return errors;
         }}
         onSubmit={async (values) => {
-          await new Promise((r) => setTimeout(r, 500));
-          
-          // Проверка результата
-          const isCorrect = values.picked === 'Таблица';
-          const message = isCorrect ? 'Правильно!' : 'Неправильно. Правильный ответ: Таблица.';
-          
-          // Создание объекта результата
-          const resultObject = {
-            picked: values.picked,
-            isCorrect,
-            message,
-          };
+          try {
+            // Отправка данных на сервер с помощью axios
+            const response = await axios.post(API_SERVER +'check_answer', values, {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
 
-          // Установка результата в состояние
-          setResult(resultObject);
-          
-          // Вывод результата в консоль
-          console.log(JSON.stringify(resultObject, null, 2));
+            // Установка результата в состояние
+            setResult(response.data);
+            
+            // Вывод результата в консоль
+            console.log(JSON.stringify(response.data, null, 2));
+          } catch (error) {
+            console.error('Ошибка при отправке данных:', error);
+          }
         }}
       >
         {({ values }) => (
           <Form>
             <div className="form-group">
-              <label id="my-radio-group">Выбрано</label>
+              <label id="my-radio-group">Варианты ответа:</label>
               <div role="group" aria-labelledby="my-radio-group">
                 <div className="form-check">
                   <Field type="radio" name="picked" value="Таблица" className="form-check-input" />
@@ -69,11 +69,7 @@ const Example = () => {
       {result && (
         <div className="mt-4">
           <h3>Результат:</h3>
-          <div className="card">
-            <div className="card-body">
-              <pre>{JSON.stringify(result, null, 2)}</pre>
-            </div>
-          </div>
+          <pre>{JSON.stringify(result, null, 2)}</pre>
         </div>
       )}
     </div>
