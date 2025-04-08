@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
+import Excel1 from '../../../assets/images/Excel/Excelnum1.jpg';
 import Excel2 from '../../../assets/images/Excel/Excelnum2.png';
 
 const ExcelGuide = () => {
@@ -12,7 +13,7 @@ const ExcelGuide = () => {
       <Row className="mb-4">
         <Col>
           <Card>
-            <Card.Img variant="top" src={Excel2} />
+            <Card.Img variant="top" src={Excel1} />
             <Card.Body>
               <Card.Title>Шаг 1: Открытие Excel</Card.Title>
               <Card.Text>
@@ -26,6 +27,7 @@ const ExcelGuide = () => {
       <Row className="mb-4">
         <Col>
           <Card>
+            <Card.Img variant="top" src={Excel2} />
             <Card.Body>
               <Card.Title>Шаг 2: Создание новой таблицы</Card.Title>
               <Card.Text>
