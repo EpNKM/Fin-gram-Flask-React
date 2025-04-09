@@ -14,7 +14,8 @@ from .models import Course
 from .models import db, Users, JWTTokenBlocklist
 from .config import BaseConfig
 import requests
-
+from flask import Response
+import json
 
 
 rest_api = Api(version="1.0", title="Users API")
@@ -337,13 +338,18 @@ class Add_course(Resource):
         data = request.json
         
         if 'title' not in data or 'description' not in data:
-            return jsonify({'error': 'Missing title or description'}), 400
+            return Response(json.dumps({"msg": "Title and description are required"}), status=400, mimetype='application/json')
 
-        new_course = Course(title=data['title'], description=data['description'])
+        new_course = Course(title=data['title'], description=data['description'],user_id=data['user_id'])
         db.session.add(new_course)
         db.session.commit()
+
+        response_data = {
+            "msg": "Course added successfully",
+            "course_id": new_course.id
+        }
         
-        return jsonify({'id': new_course.id}), 201
+        return Response(json.dumps(response_data), status=201, mimetype='application/json')
 
 
 # Маршрут для получения тестов по курсу
