@@ -2,7 +2,10 @@ import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 import Excel1 from '../../../assets/images/Excel/Excelnum1.jpg';
-import Excel2 from '../../../assets/images/Excel/Excelnum2.png';
+import Excel2 from '../../../assets/images/Excel/Excelnum2.jpg';
+import Excel3 from '../../../assets/images/Excel/Excelnum3.jpg';
+import Excel4 from '../../../assets/images/Excel/Excelnum4.jpg';
+import Excel5 from '../../../assets/images/Excel/Excelnum5.jpg';
 
 const ExcelGuide = () => {
   const history = useHistory();
@@ -10,6 +13,7 @@ const ExcelGuide = () => {
     <Container style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
       <h1 className="text-center">Как работать в Excel</h1>
       <p className="text-center">Узнайте основные функции и возможности Microsoft Excel.</p>
+      <p>Microsoft Excel -  программа для работы с электронными таблицами, созданная корпорацией Microsoft для Windows.</p>
       <Row className="mb-4">
         <Col>
           <Card>
@@ -41,6 +45,7 @@ const ExcelGuide = () => {
       <Row className="mb-4">
         <Col>
           <Card>
+            <Card.Img variant="top" src={Excel3}/>
             <Card.Body>
               <Card.Title>Шаг 3: Ввод данных</Card.Title>
               <Card.Text>
@@ -54,10 +59,11 @@ const ExcelGuide = () => {
       <Row className="mb-4">
         <Col>
           <Card>
+          <Card.Img variant="top" src={Excel4}/>
             <Card.Body>
               <Card.Title>Шаг 4: Использование формул</Card.Title>
               <Card.Text> 
-                Для выполнения расчетов используйте формулы. Например, введите =SUM(A1:A10) для суммирования значений в диапазоне A1:A10.
+                Для выполнения расчетов используйте формулы. Например, введите =СУММ(A2:A10) для суммирования значений в диапазоне A2:A10.
               </Card.Text> 
             </Card.Body> 
           </Card> 
@@ -67,10 +73,11 @@ const ExcelGuide = () => {
       <Row className="mb-4">
         <Col>
           <Card>
+            <Card.Img variant="top" src={Excel5}/>
             <Card.Body>
               <Card.Title>Шаг 5: Форматирование данных</Card.Title>
               <Card.Text> 
-                Выделите ячейки и используйте панель инструментов для изменения шрифта, цвета и стиля ячеек.
+                Выделите ячейки и используйте панель инструментов для изменения шрифта, цвета и стиля ячеек. При наведении курсором на иконку всплывает подсказка.
               </Card.Text> 
             </Card.Body> 
           </Card> 

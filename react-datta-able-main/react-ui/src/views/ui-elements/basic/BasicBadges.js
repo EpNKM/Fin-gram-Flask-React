@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CardGroup from 'react-bootstrap/CardGroup';
 import { Row, Col, Card, Form, Button, InputGroup, FormControl, DropdownButton, Dropdown,ProgressBar } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
-import myImage1 from '../../../assets/images/Excel/Excel2.png';
+import myImage1 from '../../../assets/images/Excel/Excel.png';
 
 
 function GroupExample() {
@@ -19,7 +19,7 @@ function GroupExample() {
           <Button onClick={() => history.push('/basic/1course')} variant="success">Перейти к курсу</Button>
         </Card.ImgOverlay>
         <Card.Footer>
-         <ProgressBar now={60} />
+         <ProgressBar variant="success" now={60} />
         </Card.Footer>
       </Card>
       <Card>

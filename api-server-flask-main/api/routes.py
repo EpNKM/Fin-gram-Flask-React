@@ -10,6 +10,7 @@ from flask_restx import Api, Resource, fields
 
 import jwt
 
+from .models import Course 
 from .models import db, Users, JWTTokenBlocklist
 from .config import BaseConfig
 import requests
@@ -322,6 +323,45 @@ class Check_answer(Resource):
         response = jsonify(result_object)
         response.headers['Content-Type'] = 'application/json; charset=utf-8'  # Установка кодировки
         return response
+
+@rest_api.route('/courses', methods=['GET'])
+class Get_course(Resource):
+    def get(self):
+        courses = Course.query.all()
+        return jsonify([{'id': course.id, 'title': course.title, 'description': course.description} for course in courses])
+
+# Маршрут для добавления нового курса
+@rest_api.route('/courses', methods=['POST'])
+class Add_course(Resource):
+    def post(self):
+        data = request.json
+        
+        if 'title' not in data or 'description' not in data:
+            return jsonify({'error': 'Missing title or description'}), 400
+
+        new_course = Course(title=data['title'], description=data['description'])
+        db.session.add(new_course)
+        db.session.commit()
+        
+        return jsonify({'id': new_course.id}), 201
+
+
+# Маршрут для получения тестов по курсу
+@rest_api.route('/courses/<int:course_id>/tests', methods=['GET'])
+class Get_test(Resource):
+    def get_tests(course_id):
+        tests = Test.query.filter_by(course_id=course_id).all()
+        return jsonify([{'id': test.id, 'question': test.question} for test in tests])
+
+# Маршрут для добавления нового теста к курсу
+@rest_api.route('/courses/<int:course_id>/tests', methods=['POST'])
+class Add_test(Resource):
+    def post(course_id):
+        data = request.json
+        new_test = Test(course_id=course_id, question=data['question'], correct_answer=data['correct_answer'])
+        db.session.add(new_test)
+        db.session.commit()
+        return jsonify({'id': new_test.id}), 201
 
     #main page route
 # @rest_api.route('/')

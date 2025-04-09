@@ -12,15 +12,17 @@ import ast
 db = SQLAlchemy()
 
 class Users(db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(32), nullable=False)
     email = db.Column(db.String(64), nullable=True)
     password = db.Column(db.Text())
     jwt_auth_active = db.Column(db.Boolean())
     date_joined = db.Column(db.DateTime(), default=datetime.utcnow)
+    courses = db.relationship('Course', backref='users', lazy=True)
 
     def __repr__(self):
-        return f"User {self.username}"
+        return f"Users {self.username}"
 
     def save(self):
         db.session.add(self)
@@ -84,14 +86,6 @@ class JWTTokenBlocklist(db.Model):
 
 #Тестирование
 
-class User(db.Model):
-
-    __tablename__ = 'USERS'
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    username = db.Column(db.String(50), nullable=False)
-    password = db.Column(db.String(100), nullable=False)
-    type = db.Column(db.Integer, nullable=False)
-
 class Test(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
@@ -100,6 +94,7 @@ class Test(db.Model):
         return f'<Test {self.title}>'
 
 class Question(db.Model):
+    __tablename__ = 'question'
     id = db.Column(db.Integer, primary_key=True)
     test_id = db.Column(db.Integer, db.ForeignKey('test.id'), nullable=False)
     question_text = db.Column(db.String(250), nullable=False)
@@ -117,9 +112,16 @@ class Option(db.Model):
 
 class Result(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     test_id = db.Column(db.Integer, db.ForeignKey('test.id'), nullable=False)
     score = db.Column(db.Float, nullable=False)
     def __repr__(self):
-        return f'<Result {self.Result_text}>'
+        return f'<Result User ID: {self.user_id}, Test ID: {self.test_id}, Score: {self.score}>'
+
+class Course(db.Model):
+    __tablename__ = 'courses'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(200), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
