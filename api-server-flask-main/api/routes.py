@@ -329,7 +329,7 @@ class Check_answer(Resource):
 class Get_course(Resource):
     def get(self):
         courses = Course.query.all()
-        return jsonify([{'id': course.id, 'title': course.title, 'description': course.description} for course in courses])
+        return jsonify([{'id': course.id, 'title': course.title, 'description': course.description,'user_id':course.user_id} for course in courses])
 
 # Маршрут для добавления нового курса
 @rest_api.route('/courses', methods=['POST'])
